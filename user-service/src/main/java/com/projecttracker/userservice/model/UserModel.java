@@ -1,7 +1,6 @@
 package com.projecttracker.userservice.model;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,6 +11,11 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import org.springframework.format.annotation.DateTimeFormat;
+
+import com.projecttracker.userservice.enums.State;
+import com.projecttracker.userservice.enums.Status;
+import com.projecttracker.userservice.enums.UserRole;
+import com.projecttracker.userservice.enums.UserType;
 
 
 @Entity
@@ -32,7 +36,7 @@ public class UserModel {
 	private String lastName;
 	
 	@Column(name="DOB")
-	private Date dob;
+	private LocalDateTime dob;
 	
 	@Column(name="EMAIL_ADDRESS")
 	private String emailAddress;
@@ -69,21 +73,21 @@ public class UserModel {
 	@Column(name="USER_ROLE")
 	private UserRole userRole;
 	
-	//approved or rejected
+	@Enumerated(EnumType.STRING)
 	@Column(name="STATE")
-	private String state;
+	private State state;
 	
-	//awaiting_approval, reset password, available, disabled, locked
+	@Enumerated(EnumType.STRING)
 	@Column(name="STATUS")
-	private String status;
+	private Status status;
 	
 	@Column(name="DATE_CREATED")
 	@DateTimeFormat(pattern="dd/MM/yyyy")
-	private Date dateCreated;
+	private LocalDateTime dateCreated;
 	
 	@Column(name="DATE_MODIFIED")
 	@DateTimeFormat(pattern="dd/MM/yyyy")
-	private Date dateModified;
+	private LocalDateTime dateModified;
 	
 	@Column(name="LOCKED")
 	private boolean locked;
@@ -132,11 +136,11 @@ public class UserModel {
 		this.lastName = lastName;
 	}
 
-	public Date getDob() {
+	public LocalDateTime getDob() {
 		return dob;
 	}
 
-	public void setDob(Date dob) {
+	public void setDob(LocalDateTime dob) {
 		this.dob = dob;
 	}
 
@@ -228,35 +232,35 @@ public class UserModel {
 		this.userRole = userRole;
 	}
 
-	public String getState() {
+	public State getState() {
 		return state;
 	}
 
-	public void setState(String state) {
+	public void setState(State state) {
 		this.state = state;
 	}
 
-	public String getStatus() {
+	public Status getStatus() {
 		return status;
 	}
 
-	public void setStatus(String status) {
+	public void setStatus(Status status) {
 		this.status = status;
 	}
 
-	public Date getDateCreated() {
+	public LocalDateTime getDateCreated() {
 		return dateCreated;
 	}
 
-	public void setDateCreated(Date dateCreated) {
+	public void setDateCreated(LocalDateTime dateCreated) {
 		this.dateCreated = dateCreated;
 	}
 
-	public Date getDateModified() {
+	public LocalDateTime getDateModified() {
 		return dateModified;
 	}
 
-	public void setDateModified(Date dateModified) {
+	public void setDateModified(LocalDateTime dateModified) {
 		this.dateModified = dateModified;
 	}
 

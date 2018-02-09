@@ -1,4 +1,4 @@
-package com.projecttracker.userservice.model;
+package com.projecttracker.userservice.enums;
 
 public enum UserType {
 

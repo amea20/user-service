@@ -1,6 +1,6 @@
 package com.projecttracker.userservice.model;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 public class User {
 
@@ -8,7 +8,7 @@ public class User {
 	private String userName;
 	private String firstName;
 	private String lastName;
-	private Date dob;
+	private LocalDateTime dob;
 	private String emailaddress;
     private String address1;
 	private String address2;
@@ -20,8 +20,8 @@ public class User {
 	private String userRole;
 	private String state;
 	private String status;
-	private Date dateCreated;
-	private Date dateModified;
+	private LocalDateTime dateCreated;
+	private LocalDateTime dateModified;
 	private boolean locked;
 	private boolean disabled;
 	private int loginAttempts;
@@ -86,10 +86,10 @@ public class User {
 	public void setCountry(String country) {
 		this.country = country;
 	}
-	public Date getDob() {
+	public LocalDateTime getDob() {
 		return dob;
 	}
-	public void setDob(Date dob) {
+	public void setDob(LocalDateTime dob) {
 		this.dob = dob;
 	}
 	public String getEmailaddress() {
@@ -122,16 +122,16 @@ public class User {
 	public void setStatus(String status) {
 		this.status = status;
 	}
-	public Date getDateCreated() {
+	public LocalDateTime getDateCreated() {
 		return dateCreated;
 	}
-	public void setDateCreated(Date dateCreated) {
+	public void setDateCreated(LocalDateTime dateCreated) {
 		this.dateCreated = dateCreated;
 	}
-	public Date getDateModified() {
+	public LocalDateTime getDateModified() {
 		return dateModified;
 	}
-	public void setDateModified(Date dateModified) {
+	public void setDateModified(LocalDateTime dateModified) {
 		this.dateModified = dateModified;
 	}
 	public boolean isLocked() {
