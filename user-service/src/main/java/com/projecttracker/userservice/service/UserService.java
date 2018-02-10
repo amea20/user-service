@@ -3,6 +3,9 @@ package com.projecttracker.userservice.service;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Random;
+import java.util.TreeMap;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -106,8 +109,54 @@ public class UserService {
 		validationErrors = userValidator.validateStatus(user);
 		return validationErrors;
 	}
+		
+	public Map<String,String> getCountries() {
+		Map<String,String> countriesMap = new TreeMap<>();
+		//SQLQuery query = session.createSQLQuery("SELECT country_name,country_code FROM countries");
+//		List<Object[]> countries = query.list();
+//		for (Object[] country:countries) {
+//			countriesMap.put(country[0].toString(), country[1].toString());
+//		}
+		
+		return countriesMap;
+	}
 	
 	protected String generateUsername(UserRequest userRequest) {
-		return userRequest.getFirstname();
+		String username = userRequest.getFirstname().toLowerCase().substring(0, 1) + userRequest.getLastname().toLowerCase();
+	//	Query query	= session.createQuery("from User where username LIKE :username order by username DESC");
+	//	query.setParameter("username", username + "%");
+	//	query.setMaxResults(1);
+	//	if (query.list().size() != 0) {
+	//		User user = (User) query.list().get(0);
+	//		if (user.getUsername().equals(username)) {
+	//			return username + "1";
+	//		}
+		int sequence = Integer.parseInt(userRequest.getUsername().substring(userRequest.getUsername().length()));
+		username = userRequest.getFirstname().toLowerCase().charAt(0) + userRequest.getLastname().toLowerCase() + ++sequence;
+//		}
+		return username;
+	}
+	
+	public String generateTempPass() {
+			Random random = new Random();
+			String upperCase ="ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+	        String lowerCase = "abcdefghijklmnopqrstuvwxyz";
+			String numbers = "0123456789";
+			String specialChars = "~`!@#$%^&*()-_=+[{]}\\|;:\'\",<.>/?";
+			char [] tempPass = new char[11];
+			for (int i=0;i<tempPass.length;i++) {
+			switch(random.nextInt(3)) {
+			case(0): tempPass[i] = upperCase.charAt(random.nextInt(upperCase.length()));
+			break;
+	        case(1): tempPass[i] = lowerCase.charAt(random.nextInt(lowerCase.length()));
+			break;
+			case(2): tempPass[i] = numbers.charAt(random.nextInt(numbers.length()));
+			break;
+			case(3): tempPass[i] = specialChars.charAt(random.nextInt(specialChars.length()));
+			break;
+			default:
+			}
+	        }
+	    	return String.valueOf(tempPass);
 	}
 }
