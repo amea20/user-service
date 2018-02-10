@@ -4,12 +4,13 @@ import java.time.LocalDateTime;
 
 public class UserRequest {
 
+	private String username;
 	private String password;
 	private String confirmPassword;
-	private String firstName;
-	private String lastName;
+	private String firstname;
+	private String lastname;
 	private LocalDateTime dob;
-	private String emailAddress;
+	private String emailaddress;
 	private String address1;
 	private String address2;
 	private String address3;
@@ -17,6 +18,12 @@ public class UserRequest {
 	private String postcode;
 	private String country;
 	
+	public String getUsername() {
+		return username;
+	}
+	public void setUsername(String username) {
+		this.username = username;
+	}
 	public String getPassword() {
 		return password;
 	}
@@ -29,17 +36,17 @@ public class UserRequest {
 	public void setConfirmPassword(String confirmPassword) {
 		this.confirmPassword = confirmPassword;
 	}
-	public String getFirstName() {
-		return firstName;
+	public String getFirstname() {
+		return firstname;
 	}
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
+	public void setFirstname(String firstname) {
+		this.firstname = firstname;
 	}
-	public String getLastName() {
-		return lastName;
+	public String getLastname() {
+		return lastname;
 	}
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
+	public void setLastname(String lastname) {
+		this.lastname = lastname;
 	}
 	public LocalDateTime getDob() {
 		return dob;
@@ -47,11 +54,11 @@ public class UserRequest {
 	public void setDob(LocalDateTime dob) {
 		this.dob = dob;
 	}
-	public String getEmailAddress() {
-		return emailAddress;
+	public String getEmailaddress() {
+		return emailaddress;
 	}
-	public void setEmailAddress(String emailAddress) {
-		this.emailAddress = emailAddress;
+	public void setEmailaddress(String emailaddress) {
+		this.emailaddress = emailaddress;
 	}
 	public String getAddress1() {
 		return address1;

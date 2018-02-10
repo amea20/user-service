@@ -4,10 +4,11 @@ import java.time.LocalDateTime;
 
 public class User {
 
-    private Integer userId;
-	private String userName;
-	private String firstName;
-	private String lastName;
+	private Integer userId;
+	private String username;
+	private String password;
+	private String firstname;
+	private String lastname;
 	private LocalDateTime dob;
 	private String emailaddress;
     private String address1;
@@ -18,7 +19,6 @@ public class User {
 	private String country;
 	private String userType;
 	private String userRole;
-	private String state;
 	private String status;
 	private LocalDateTime dateCreated;
 	private LocalDateTime dateModified;
@@ -26,29 +26,36 @@ public class User {
 	private boolean disabled;
 	private int loginAttempts;
 	
+	
 	public Integer getUserId() {
 		return userId;
 	}
 	public void setUserId(Integer userId) {
 		this.userId = userId;
 	}
-	public String getUserName() {
-		return userName;
+	public String getUsername() {
+		return username;
 	}
-	public void setUserName(String userName) {
-		this.userName = userName;
+	public void setUsername(String username) {
+		this.username = username;
 	}
-	public String getFirstName() {
-		return firstName;
+	public String getPassword() {
+		return password;
 	}
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
+	public void setPassword(String password) {
+		this.password = password;
 	}
-	public String getLastName() {
-		return lastName;
+	public String getFirstname() {
+		return firstname;
 	}
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
+	public void setFirstname(String firstname) {
+		this.firstname = firstname;
+	}
+	public String getLastname() {
+		return lastname;
+	}
+	public void setLastname(String lastname) {
+		this.lastname = lastname;
 	}
 	public String getAddress1() {
 		return address1;
@@ -109,12 +116,6 @@ public class User {
 	}
 	public void setUserRole(String userRole) {
 		this.userRole = userRole;
-	}
-	public String getState() {
-		return state;
-	}
-	public void setState(String state) {
-		this.state = state;
 	}
 	public String getStatus() {
 		return status;

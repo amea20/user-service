@@ -8,5 +8,5 @@ import com.projecttracker.userservice.model.UserModel;
 @Repository
 public interface UserRepository extends JpaRepository<UserModel, Integer> {
 
-	public UserModel findByUserName(String userName);
+	public UserModel findByUsername(String username);
 }

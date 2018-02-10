@@ -47,6 +47,13 @@ public class UserResource {
 		return new ResponseEntity<>(String.format("User %s does not exist", username),HttpStatus.NOT_FOUND);
 	}
 	
+	@PostMapping("/checkLogin")
+	public ResponseEntity checkUser(@Valid @RequestBody UserRequest userRequest) {
+		List<String> validationErrors = userService.checkUserExists(userRequest.getUsername(),userRequest.getPassword());
+		if (validationErrors.isEmpty()) return new ResponseEntity<>(userRequest,HttpStatus.OK);
+		return new ResponseEntity<>(validationErrors,HttpStatus.BAD_REQUEST);
+	}
+	
 	@PostMapping("/users")
 	public ResponseEntity createUser(@Valid @RequestBody UserRequest userRequest) {
 		List<String> validationErrors = userValidator.validate(userRequest);
@@ -63,6 +70,6 @@ public class UserResource {
 		if (user != null) { userService.deleteUser(user);
 		return ResponseEntity.status(HttpStatus.OK).body(user);
 		}
-		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(String.format("The user %s does not exist", user.getUserName()));
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("The user does not exist");
 	}
 }

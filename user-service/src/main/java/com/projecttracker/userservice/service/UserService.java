@@ -8,21 +8,24 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.projecttracker.userservice.enums.Status;
-import com.projecttracker.userservice.enums.UserType;
+import static com.projecttracker.userservice.enums.Status.*;
+import static com.projecttracker.userservice.enums.UserType.*;
 import com.projecttracker.userservice.model.User;
 import com.projecttracker.userservice.model.UserModel;
 import com.projecttracker.userservice.model.UserRequest;
 import com.projecttracker.userservice.repository.UserRepository;
+import com.projecttracker.userservice.validation.UserValidator;
 
 @Service
 public class UserService {
 
 	private final UserRepository userRepository;
+	private final UserValidator userValidator;
 	
 	@Autowired
-	public UserService(UserRepository userRepository) {
+	public UserService(UserRepository userRepository,UserValidator userValidator) {
 		this.userRepository = userRepository;
+		this.userValidator = userValidator;
 	}
 	
 	public List<User> getUsers() {
@@ -34,7 +37,7 @@ public class UserService {
 	}
 	
 	public User getUser(String username) {
-		UserModel userModel = userRepository.findByUserName(username);
+		UserModel userModel = userRepository.findByUsername(username);
 		if (userModel != null) {
 		return convertToDTO(userModel);
 		}
@@ -43,22 +46,21 @@ public class UserService {
 	
 	public void createUser(UserRequest userRequest) {
 		UserModel userModel = new UserModel();
-		userModel.setUserName(generateUsername(userRequest));
+		userModel.setUsername(generateUsername(userRequest));
 		userModel.setPassword(userRequest.getPassword());
-		userModel.setFirstName(userRequest.getFirstName());
-		userModel.setLastName(userRequest.getLastName());
+		userModel.setFirstname(userRequest.getFirstname());
+		userModel.setLastname(userRequest.getLastname());
 		userModel.setDob(userRequest.getDob());
-		userModel.setEmailAddress(userRequest.getEmailAddress());
+		userModel.setEmailaddress(userRequest.getEmailaddress());
 		userModel.setAddress1(userRequest.getAddress1());
 		userModel.setAddress2(userRequest.getAddress2());
 		userModel.setAddress3(userRequest.getAddress3());
 		userModel.setCity(userRequest.getCity());
 		userModel.setPostcode(userRequest.getPostcode());
 		userModel.setCountry(userRequest.getCountry());
-		userModel.setUserType(UserType.USER);
+		userModel.setUserType(USER);
 		userModel.setUserRole(null);
-		userModel.setState(null);
-		userModel.setStatus(Status.AWAITING_APPROVAL);
+		userModel.setStatus(AWAITING_APPROVAL);
 		userModel.setDateCreated(LocalDateTime.now());
 		userModel.setDateModified(LocalDateTime.now());
 		userModel.setLocked(false);
@@ -75,10 +77,10 @@ public class UserService {
 		if (userModel != null) {
 			User user = new User();
 			user.setUserId(userModel.getUserId());
-			user.setUserName(userModel.getUserName());
-			user.setFirstName(userModel.getFirstName());
-			user.setLastName(userModel.getLastName());
-			user.setEmailaddress(userModel.getEmailAddress());
+			user.setUsername(userModel.getUsername());
+			user.setFirstname(userModel.getFirstname());
+			user.setLastname(userModel.getLastname());
+			user.setEmailaddress(userModel.getEmailaddress());
 			user.setDob(userModel.getDob());
 			user.setUserRole(userModel.getUserRole().name());
 			user.setUserType(userModel.getUserType().name());
@@ -96,7 +98,16 @@ public class UserService {
 		return null;
 	}
 	
+	public List<String> checkUserExists(String username, String password) {
+		List<String> validationErrors = new ArrayList<>();
+		User user = getUser(username);
+		if (user == null) { validationErrors.add("User does not exist"); return validationErrors; }
+		if (!password.equals(user.getPassword())) { validationErrors.add("Password is incorrect"); return validationErrors; }
+		validationErrors = userValidator.validateStatus(user);
+		return validationErrors;
+	}
+	
 	protected String generateUsername(UserRequest userRequest) {
-		return userRequest.getFirstName();
+		return userRequest.getFirstname();
 	}
 }
