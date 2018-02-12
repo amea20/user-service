@@ -9,4 +9,6 @@ import com.projecttracker.userservice.model.UserModel;
 public interface UserRepository extends JpaRepository<UserModel, Integer> {
 
 	public UserModel findByUsername(String username);
+	
+	public UserModel findTopLikeUsernameByOrderByUsernameDesc(String username);
 }

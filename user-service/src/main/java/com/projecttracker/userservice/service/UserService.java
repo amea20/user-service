@@ -2,10 +2,10 @@ package com.projecttracker.userservice.service;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
-import java.util.TreeMap;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,9 +13,12 @@ import org.springframework.stereotype.Service;
 
 import static com.projecttracker.userservice.enums.Status.*;
 import static com.projecttracker.userservice.enums.UserType.*;
+
+import com.projecttracker.userservice.model.CountryModel;
 import com.projecttracker.userservice.model.User;
 import com.projecttracker.userservice.model.UserModel;
 import com.projecttracker.userservice.model.UserRequest;
+import com.projecttracker.userservice.repository.CountryRepository;
 import com.projecttracker.userservice.repository.UserRepository;
 import com.projecttracker.userservice.validation.UserValidator;
 
@@ -23,11 +26,13 @@ import com.projecttracker.userservice.validation.UserValidator;
 public class UserService {
 
 	private final UserRepository userRepository;
+	private final CountryRepository countryRepository;
 	private final UserValidator userValidator;
 	
 	@Autowired
-	public UserService(UserRepository userRepository,UserValidator userValidator) {
+	public UserService(UserRepository userRepository,CountryRepository countryRepository,UserValidator userValidator) {
 		this.userRepository = userRepository;
+		this.countryRepository = countryRepository;
 		this.userValidator = userValidator;
 	}
 	
@@ -111,29 +116,22 @@ public class UserService {
 	}
 		
 	public Map<String,String> getCountries() {
-		Map<String,String> countriesMap = new TreeMap<>();
-		//SQLQuery query = session.createSQLQuery("SELECT country_name,country_code FROM countries");
-//		List<Object[]> countries = query.list();
-//		for (Object[] country:countries) {
-//			countriesMap.put(country[0].toString(), country[1].toString());
-//		}
-		
+		Map<String,String> countriesMap = new HashMap<>();
+		List<CountryModel> countries = countryRepository.findAll();
+		for (CountryModel country:countries) {
+			countriesMap.put(country.getCountryCode(), country.getCountryValue());
+		}
 		return countriesMap;
 	}
 	
 	protected String generateUsername(UserRequest userRequest) {
 		String username = userRequest.getFirstname().toLowerCase().substring(0, 1) + userRequest.getLastname().toLowerCase();
-	//	Query query	= session.createQuery("from User where username LIKE :username order by username DESC");
-	//	query.setParameter("username", username + "%");
-	//	query.setMaxResults(1);
-	//	if (query.list().size() != 0) {
-	//		User user = (User) query.list().get(0);
-	//		if (user.getUsername().equals(username)) {
-	//			return username + "1";
-	//		}
+			UserModel user = userRepository.findTopLikeUsernameByOrderByUsernameDesc(userRequest.getUsername());
+			if (user.getUsername().equals(username)) {
+				return username + "1";
+			}
 		int sequence = Integer.parseInt(userRequest.getUsername().substring(userRequest.getUsername().length()));
 		username = userRequest.getFirstname().toLowerCase().charAt(0) + userRequest.getLastname().toLowerCase() + ++sequence;
-//		}
 		return username;
 	}
 	

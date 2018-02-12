@@ -1,10 +1,12 @@
 package com.projecttracker.userservice.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -19,6 +21,7 @@ import com.projecttracker.userservice.model.UserRequest;
 import com.projecttracker.userservice.service.UserService;
 import com.projecttracker.userservice.validation.UserValidator;
 
+@FeignClient("user-service")
 @RestController
 public class UserResource {
 
@@ -45,6 +48,11 @@ public class UserResource {
 		return new ResponseEntity<>(user,HttpStatus.OK);
 		}
 		return new ResponseEntity<>(String.format("User %s does not exist", username),HttpStatus.NOT_FOUND);
+	}
+	
+	@GetMapping("/countries")
+	public Map<String,String> getCountries() {
+		return userService.getCountries();
 	}
 	
 	@PostMapping("/checkLogin")
